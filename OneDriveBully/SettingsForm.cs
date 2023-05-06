@@ -11,6 +11,7 @@ namespace OneDriveBully
     {
         bool startWithWindowsChanged = false;
         bool isDirty = false;
+        bool syncOnFileChangeChanged = false;
         DataTable SymLinksTable = new DataTable();
 
         public SettingsForm()
@@ -90,7 +91,7 @@ namespace OneDriveBully
         }
 
         private void SaveSettings()
-        {           
+        {
             // Save user settings
             Properties.Settings.Default.OneDriveRootFolder = txt_OneDriveFolder.Text;
             Properties.Settings.Default.TimerInterval = Convert.ToInt32(txt_Interval.Text);
@@ -112,7 +113,12 @@ namespace OneDriveBully
                 startWithWindowsChanged = false;
             }
 
-            MessageBox.Show("Settings saved successfully.","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);            
+            if (syncOnFileChangeChanged)
+            {
+                syncOnFileChangeChanged = false;
+            }
+
+            MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion Settings Handling
@@ -148,7 +154,7 @@ namespace OneDriveBully
                 if (fbd_OneDrivePath.SelectedPath != null)
                 {
                     txt_OneDriveFolder.Text = fbd_OneDrivePath.SelectedPath;
-                }                
+                }
             }
             isDirty = true;
         }
@@ -171,7 +177,7 @@ namespace OneDriveBully
 
         //Version 1.3 -
         private void Cb_ShowInstructions_CheckedChanged(object sender, EventArgs e)
-        {  
+        {
             isDirty = true;
         }
         //Version 1.3 +
@@ -227,7 +233,7 @@ namespace OneDriveBully
                             {
                                 case DialogResult.Yes:
                                     info = new System.IO.DirectoryInfo(fAdd);
-                                    string OneDriveFolder =  fAdd.Replace(@info.Root.ToString(), @Properties.Settings.Default.OneDriveRootFolder + @"\");
+                                    string OneDriveFolder = fAdd.Replace(@info.Root.ToString(), @Properties.Settings.Default.OneDriveRootFolder + @"\");
                                     string OneDriveFolderStructure = OneDriveFolder.Remove(OneDriveFolder.LastIndexOf(info.Name));
                                     if (!System.IO.Directory.Exists(OneDriveFolderStructure))
                                     {
@@ -262,7 +268,7 @@ namespace OneDriveBully
             {
                 string fDel = SymLinksTable.Rows[dgv_SymLinks.SelectedRows[0].Index].ItemArray[1].ToString();
                 if (MessageBox.Show(
-                    "Do you want to delete this Symbolic Link?" + Environment.NewLine + Environment.NewLine + 
+                    "Do you want to delete this Symbolic Link?" + Environment.NewLine + Environment.NewLine +
                     "Warning: This will remove all files in the folder from OneDrive!" + Environment.NewLine + Environment.NewLine +
                     "To avoid file deletion, please stop syncing this folder first by changing OneDrive settings."
                     , "Delete confirmation",
@@ -305,5 +311,10 @@ namespace OneDriveBully
 
         #endregion Symbolic Link Form Controls & Functions
 
+        private void Cb_SyncOnFileChange_CheckedChanged(object sender, EventArgs e)
+        {
+            syncOnFileChangeChanged = true;
+            isDirty = true;
+        }
     }
 }
