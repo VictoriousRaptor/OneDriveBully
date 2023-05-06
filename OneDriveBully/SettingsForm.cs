@@ -11,7 +11,7 @@ namespace OneDriveBully
     {
         bool startWithWindowsChanged = false;
         bool isDirty = false;
-        bool syncOnFileChangeChanged = false;
+        bool syncOnDirChangeChanged = false;
         DataTable SymLinksTable = new DataTable();
 
         public SettingsForm()
@@ -113,9 +113,9 @@ namespace OneDriveBully
                 startWithWindowsChanged = false;
             }
 
-            if (syncOnFileChangeChanged)
+            if (syncOnDirChangeChanged)
             {
-                syncOnFileChangeChanged = false;
+                syncOnDirChangeChanged = false;
             }
 
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -172,6 +172,12 @@ namespace OneDriveBully
         private void Cb_LoadOnWindowsStartup_CheckedChanged(object sender, EventArgs e)
         {
             startWithWindowsChanged = true;
+            isDirty = true;
+        }
+
+        private void Cb_SyncOnDirChange_CheckedChanged(object sender, EventArgs e)
+        {
+            syncOnDirChangeChanged = true;
             isDirty = true;
         }
 
@@ -310,11 +316,5 @@ namespace OneDriveBully
         }
 
         #endregion Symbolic Link Form Controls & Functions
-
-        private void Cb_SyncOnFileChange_CheckedChanged(object sender, EventArgs e)
-        {
-            syncOnFileChangeChanged = true;
-            isDirty = true;
-        }
     }
 }

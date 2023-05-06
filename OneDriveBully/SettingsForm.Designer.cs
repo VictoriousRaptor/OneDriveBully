@@ -47,8 +47,8 @@
             lbl_SymbolicLinks = new System.Windows.Forms.Label();
             cb_ShowInstructions = new System.Windows.Forms.CheckBox();
             lblShowInstructions = new System.Windows.Forms.Label();
-            lbl_SyncOnFileChangs = new System.Windows.Forms.Label();
-            cb_SyncOnFileChange = new System.Windows.Forms.CheckBox();
+            lbl_SyncOnDirChange = new System.Windows.Forms.Label();
+            cb_SyncOnDirChange = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)dgv_SymLinks).BeginInit();
             SuspendLayout();
             // 
@@ -242,26 +242,26 @@
             lblShowInstructions.TabIndex = 16;
             lblShowInstructions.Text = "Show Instructions on next Exit";
             // 
-            // lbl_SyncOnFileChangs
+            // lbl_SyncOnDirChange
             // 
-            lbl_SyncOnFileChangs.AutoSize = true;
-            lbl_SyncOnFileChangs.Location = new System.Drawing.Point(18, 187);
-            lbl_SyncOnFileChangs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            lbl_SyncOnFileChangs.Name = "lbl_SyncOnFileChangs";
-            lbl_SyncOnFileChangs.Size = new System.Drawing.Size(184, 24);
-            lbl_SyncOnFileChangs.TabIndex = 18;
-            lbl_SyncOnFileChangs.Text = "Sync on file changes";
+            lbl_SyncOnDirChange.AutoSize = true;
+            lbl_SyncOnDirChange.Location = new System.Drawing.Point(18, 187);
+            lbl_SyncOnDirChange.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lbl_SyncOnDirChange.Name = "lbl_SyncOnDirChange";
+            lbl_SyncOnDirChange.Size = new System.Drawing.Size(236, 24);
+            lbl_SyncOnDirChange.TabIndex = 18;
+            lbl_SyncOnDirChange.Text = "Sync on directory changes";
             // 
-            // cb_SyncOnFileChange
+            // cb_SyncOnDirChange
             // 
-            cb_SyncOnFileChange.AutoSize = true;
-            cb_SyncOnFileChange.Location = new System.Drawing.Point(310, 190);
-            cb_SyncOnFileChange.Margin = new System.Windows.Forms.Padding(4);
-            cb_SyncOnFileChange.Name = "cb_SyncOnFileChange";
-            cb_SyncOnFileChange.Size = new System.Drawing.Size(22, 21);
-            cb_SyncOnFileChange.TabIndex = 17;
-            cb_SyncOnFileChange.UseVisualStyleBackColor = true;
-            cb_SyncOnFileChange.CheckedChanged += Cb_SyncOnFileChange_CheckedChanged;
+            cb_SyncOnDirChange.AutoSize = true;
+            cb_SyncOnDirChange.Location = new System.Drawing.Point(310, 190);
+            cb_SyncOnDirChange.Margin = new System.Windows.Forms.Padding(4);
+            cb_SyncOnDirChange.Name = "cb_SyncOnDirChange";
+            cb_SyncOnDirChange.Size = new System.Drawing.Size(22, 21);
+            cb_SyncOnDirChange.TabIndex = 17;
+            cb_SyncOnDirChange.UseVisualStyleBackColor = true;
+            cb_SyncOnDirChange.CheckedChanged += Cb_SyncOnDirChange_CheckedChanged;
             // 
             // SettingsForm
             // 
@@ -269,8 +269,8 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.SystemColors.Control;
             ClientSize = new System.Drawing.Size(1454, 857);
-            Controls.Add(cb_SyncOnFileChange);
-            Controls.Add(lbl_SyncOnFileChangs);
+            Controls.Add(cb_SyncOnDirChange);
+            Controls.Add(lbl_SyncOnDirChange);
             Controls.Add(cb_ShowInstructions);
             Controls.Add(lblShowInstructions);
             Controls.Add(lbl_SymbolicLinks);
@@ -319,7 +319,7 @@
         private System.Windows.Forms.Label lbl_SymbolicLinks;
         private System.Windows.Forms.CheckBox cb_ShowInstructions;
         private System.Windows.Forms.Label lblShowInstructions;
-        private System.Windows.Forms.Label lbl_SyncOnFileChangs;
-        private System.Windows.Forms.CheckBox cb_SyncOnFileChange;
+        private System.Windows.Forms.Label lbl_SyncOnDirChange;
+        private System.Windows.Forms.CheckBox cb_SyncOnDirChange;
     }
 }
