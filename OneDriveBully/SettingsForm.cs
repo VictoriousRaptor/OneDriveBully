@@ -111,7 +111,7 @@ namespace OneDriveBully
 
             if (startWithWindowsChanged)
             {
-                //Update Windows Registry Key (Add/Remove)
+                // Update startup shortcut
                 ProcessIcon.fn.startOnWindowsStartup(Properties.Settings.Default.LoadOnWindowsStartup);
                 startWithWindowsChanged = false;
             }

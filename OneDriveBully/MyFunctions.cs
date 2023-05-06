@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Timers;
-using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Data;
@@ -10,6 +9,8 @@ using OneDriveBully.Properties;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 namespace OneDriveBully
 {
@@ -204,28 +205,30 @@ namespace OneDriveBully
 
         #endregion Bully Function
 
-        #region Windows Registry Related Functions 
+        #region Startup
 
-        public void startOnWindowsStartup(bool register)
+        public void startOnWindowsStartup(bool create)
         {
-            if (register)
+            var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            var shortCutLinkFilePath = Path.Combine(startupFolderPath, @"OneDriveBully.lnk");
+
+            if (File.Exists(shortCutLinkFilePath))
             {
-                RegistryKey add = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                add.SetValue(@"OneDriveBully", "\"" + Application.ExecutablePath.ToString() + "\"");
+                File.Delete(shortCutLinkFilePath);
             }
-            else
+
+            if (create)
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
-                {
-                    if (key != null)
-                    {
-                        key.DeleteValue(@"OneDriveBully");
-                    }
-                }
+                var shell = new WshShell();
+                var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
+                windowsApplicationShortcut.Description = "Bully your OneDrive";
+                windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
+                windowsApplicationShortcut.TargetPath = Application.ExecutablePath;
+                windowsApplicationShortcut.Save();
             }
         }
 
-        #endregion Windows Registry Related Functions 
+        #endregion Startup
 
         #region Symbolic Links Related Functions
 
