@@ -1,6 +1,7 @@
 ﻿// Adapted from Flow
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,10 +12,9 @@ namespace OneDriveBully
 {
     internal class DirectoryChangeMonitor : IDisposable
     {
-        private List<FileSystemWatcher> Watchers = new List<FileSystemWatcher>();
-        private Channel<byte> indexQueue = Channel.CreateBounded<byte>(1);
-
-        private SemaphoreSlim semaphore = new (1, 1);
+        private readonly List<FileSystemWatcher> Watchers = new List<FileSystemWatcher>();
+        private readonly Channel<byte> indexQueue = Channel.CreateBounded<byte>(1);
+        private readonly SemaphoreSlim semaphore = new (1, 1);
 
         public void WatchDirs(IEnumerable<string> paths)
         {
@@ -27,6 +27,11 @@ namespace OneDriveBully
             _ = Task.Run(BullyOnDirChange);
         }
 
+        public void WatchDirs(DataTable data)
+        {
+
+        }
+        
         public async Task BullyOnDirChange()
         {
             if (semaphore.CurrentCount == 0)
@@ -73,6 +78,7 @@ namespace OneDriveBully
             {
                 fileSystemWatcher.Dispose();
             }
+            Watchers.Clear();
         }
     }
 }

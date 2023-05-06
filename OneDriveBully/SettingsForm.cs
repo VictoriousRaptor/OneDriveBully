@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
+using OneDriveBully.Properties;
 
 namespace OneDriveBully
 {
@@ -12,6 +13,7 @@ namespace OneDriveBully
         bool startWithWindowsChanged = false;
         bool isDirty = false;
         bool syncOnDirChangeChanged = false;
+        bool symLinksModified = false;
         DataTable SymLinksTable = new DataTable();
 
         public SettingsForm()
@@ -246,9 +248,11 @@ namespace OneDriveBully
                                         System.IO.Directory.CreateDirectory(OneDriveFolderStructure);
                                     }
                                     ProcessIcon.fn.createSymbolicLink(@OneDriveFolder, @fAdd);
+                                    symLinksModified = true;
                                     break;
                                 case DialogResult.No:
                                     ProcessIcon.fn.createSymbolicLink(@Properties.Settings.Default.OneDriveRootFolder + @"\" + @fAddName, @fAdd);
+                                    symLinksModified = true;
                                     break;
                                 case DialogResult.Cancel:
                                     break;
@@ -286,6 +290,7 @@ namespace OneDriveBully
                     //    Refresh_dgv();
                     //}
                     ProcessIcon.fn.deleteSymbolicLink(@fDel);
+                    symLinksModified = true;
                     //Version 1.3 +
                 }
             }
@@ -313,6 +318,11 @@ namespace OneDriveBully
             dgv_SymLinks.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgv_SymLinks.Refresh();
             //} //Version 1.3 -+
+            
+            if (symLinksModified)
+            {
+
+            }
         }
 
         #endregion Symbolic Link Form Controls & Functions
