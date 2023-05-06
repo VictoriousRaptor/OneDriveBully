@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Data;
 using OneDriveBully.Properties;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace OneDriveBully
 {
@@ -114,6 +114,7 @@ namespace OneDriveBully
 
                 stopTimer();
                 startTimer();
+                UpdateIconText(ProgressStatus.Idle);
             }
         }
 
@@ -121,8 +122,6 @@ namespace OneDriveBully
         {
             MyTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             MyTimer.Enabled = true;
-
-            UpdateIconText(ProgressStatus.Idle);
         }
 
         public void stopTimer()
@@ -136,9 +135,8 @@ namespace OneDriveBully
             timeRemaining -= 1 * 60 * 1000;
             if (timeRemaining <= 0)
             {
-                bullyNow();
+                _ = bullyNow();
             }
-            UpdateIconText(ProgressStatus.Idle);
         }
 
         private void UpdateIconText(ProgressStatus ProgressStatus)
@@ -169,28 +167,13 @@ namespace OneDriveBully
 
         #region Bully Function
 
-        public void bullyNow()
+        public async Task bullyNow()
         {
-            UpdateIconText(ProgressStatus.Syncing);
             //Version 1.1 - Bug Fix -
             //checkUserSettings();
             if (checkUserSettings())
             {
-                //Version 1.1 - Bug Fix +
-
-                //Version 1.3 -
-                //if (File.Exists(rootPath + fileName))
-                //{
-                //    File.Delete(rootPath + fileName);
-                //}
-
-                //File.Create(rootPath + fileName).Close();
-                //Thread.Sleep(5000);
-                //if (File.Exists(rootPath + fileName))
-                //{
-                //    File.Delete(rootPath + fileName);
-                //}
-
+                UpdateIconText(ProgressStatus.Syncing);
                 //Get all files that start with 'OneDriveBully_SyncTempFile'
                 string[] oldFiles = Directory.GetFiles(@rootPath, fileName + "*.txt");
                 if ((oldFiles.Length > 1) || (oldFiles.Length == 0))
@@ -211,7 +194,7 @@ namespace OneDriveBully
                 }
                 //Version 1.3 +
 
-                Thread.Sleep(5000);
+                await Task.Delay(5000);
                 setTimerInterval(Properties.Settings.Default.TimerInterval);
             } //Version 1.1 - Bug Fix -+
         }

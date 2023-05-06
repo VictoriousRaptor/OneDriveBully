@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ namespace OneDriveBully
     {
         private List<FileSystemWatcher> Watchers = new List<FileSystemWatcher>();
         private Channel<byte> indexQueue = Channel.CreateBounded<byte>(1);
+
+        private SemaphoreSlim semaphore = new (1, 1);
 
         public void WatchDirs(IEnumerable<string> paths)
         {
@@ -26,6 +29,11 @@ namespace OneDriveBully
 
         public async Task BullyOnDirChange()
         {
+            if (semaphore.CurrentCount == 0)
+            {
+                return;
+            }
+            semaphore.Wait();
             var reader = indexQueue.Reader;
             while (await reader.WaitToReadAsync())
             {
@@ -35,6 +43,7 @@ namespace OneDriveBully
                 }
                 await Task.Run(ProcessIcon.fn.bullyNow);
             }
+            semaphore.Release();
         }
 
         private void WatchDirectory(string directory)
