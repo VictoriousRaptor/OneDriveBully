@@ -27,14 +27,9 @@ namespace OneDriveBully
             _ = Task.Run(BullyOnDirChange);
         }
 
-        public void WatchDirs(DataTable data)
-        {
-
-        }
-        
         public async Task BullyOnDirChange()
         {
-            if (semaphore.CurrentCount == 0)
+            if (semaphore.CurrentCount == 0 || Watchers.Count == 0)
             {
                 return;
             }

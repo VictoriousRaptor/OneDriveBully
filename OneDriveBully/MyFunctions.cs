@@ -8,6 +8,8 @@ using System.Security.Principal;
 using System.Data;
 using OneDriveBully.Properties;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OneDriveBully
 {
@@ -313,6 +315,15 @@ namespace OneDriveBully
                 }
             }
             return SymLinksTable;
+        }
+
+        public IEnumerable<string> GetSymlinkTargets()
+        {
+            Properties.Settings.Default.Reload();
+            string[] subDirs = Directory.GetDirectories(Properties.Settings.Default.OneDriveRootFolder, "*", SearchOption.AllDirectories);
+
+            SymbolicLink sl = new SymbolicLink();
+            return subDirs.Where(IsSymbolic).Select(sl.GetSymLinkTarget);
         }
 
         private bool IsSymbolic(string path)

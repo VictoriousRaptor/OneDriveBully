@@ -119,7 +119,7 @@ namespace OneDriveBully
             if (syncOnDirChangeChanged)
             {
                 syncOnDirChangeChanged = false;
-                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.getOneDriveForSymLinks());
+                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.GetSymlinkTargets());
             }
 
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -323,7 +323,7 @@ namespace OneDriveBully
             
             if (symLinksModified && cb_SyncOnDirChange.Checked)
             {
-                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.getOneDriveForSymLinks());
+                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.GetSymlinkTargets());
             }
         }
 
