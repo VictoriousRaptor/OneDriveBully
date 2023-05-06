@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OneDriveBully
 {
-    internal class DirectoryChangeMonitor : IDisposable
+    public class DirectoryChangeMonitor : IDisposable
     {
         private readonly List<FileSystemWatcher> Watchers = new List<FileSystemWatcher>();
         private readonly Channel<byte> indexQueue = Channel.CreateBounded<byte>(1);

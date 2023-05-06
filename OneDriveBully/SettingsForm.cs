@@ -2,7 +2,6 @@
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
-using OneDriveBully.Properties;
 
 namespace OneDriveBully
 {
@@ -44,6 +43,7 @@ namespace OneDriveBully
             cb_LoadOnWindowsStartup.Checked = Properties.Settings.Default.LoadOnWindowsStartup;
             //Version 1.3 -
             cb_ShowInstructions.Checked = Properties.Settings.Default.ShowInstructions;
+            cb_SyncOnDirChange.Checked = Properties.Settings.Default.SyncOnDirChange;
 
             //Version 1.3 +
             isDirty = false;
@@ -101,6 +101,7 @@ namespace OneDriveBully
             //Version 1.3 -
             Properties.Settings.Default.ShowInstructions = cb_ShowInstructions.Checked;
             //Version 1.3 +
+            Properties.Settings.Default.SyncOnDirChange = cb_SyncOnDirChange.Checked;
             Properties.Settings.Default.UserDefinedSettings = true;
             Properties.Settings.Default.Save();
             isDirty = false;
@@ -118,6 +119,7 @@ namespace OneDriveBully
             if (syncOnDirChangeChanged)
             {
                 syncOnDirChangeChanged = false;
+                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.getOneDriveForSymLinks());
             }
 
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -319,9 +321,9 @@ namespace OneDriveBully
             dgv_SymLinks.Refresh();
             //} //Version 1.3 -+
             
-            if (symLinksModified)
+            if (symLinksModified && cb_SyncOnDirChange.Checked)
             {
-
+                ProcessIcon.fn.DirMonitor.WatchDirs(ProcessIcon.fn.getOneDriveForSymLinks());
             }
         }
 

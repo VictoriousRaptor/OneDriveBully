@@ -28,8 +28,9 @@ namespace OneDriveBully
         //Timer Variables
         private System.Timers.Timer MyTimer;
         private Int32 timeRemaining;
-
-        // File monitor
+        
+        // Dir monitor
+        public DirectoryChangeMonitor DirMonitor = new();
 
         public void initApp()
         {
