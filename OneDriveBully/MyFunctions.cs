@@ -85,7 +85,7 @@ namespace OneDriveBully
         public void WrongSettings()
         {
             MessageBox.Show("Please update your settings.", "Settings Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            UpdateIconText(2);
+            UpdateIconText(ProgressStatus.Error);
             stopTimer();
         }
 
@@ -120,7 +120,7 @@ namespace OneDriveBully
             MyTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             MyTimer.Enabled = true;
 
-            UpdateIconText(0);
+            UpdateIconText(ProgressStatus.Idle);
         }
 
         public void stopTimer()
@@ -136,30 +136,28 @@ namespace OneDriveBully
             {
                 bullyNow();
             }
-            UpdateIconText(0);
+            UpdateIconText(ProgressStatus.Idle);
         }
 
-        private void UpdateIconText(int ProgressStatus)
+        private void UpdateIconText(ProgressStatus ProgressStatus)
         {
             switch (ProgressStatus)
             {
-                case 0:
+                case ProgressStatus.Idle:
                     ProcessIcon.ni.Icon = Resources.StandardIcon;
-                    ProcessIcon.ni.Text = "OneDrive Bully" + " - Next Sync in: "
-                    + (timeRemaining / 60 / 1000).ToString() + " minutes";
+                    ProcessIcon.ni.Text = $"Next Sync in: {timeRemaining / 60 / 1000} minutes";
                     break;
-                case 1:
+                case ProgressStatus.Syncing:
                     ProcessIcon.ni.Icon = Resources.IconProgress;
-                    ProcessIcon.ni.Text = "OneDrive Bullying in progress.";
+                    ProcessIcon.ni.Text = "OneDrive Bullying in progress";
                     break;
-                case 2:
+                case ProgressStatus.Error:
                     ProcessIcon.ni.Icon = Resources.IconError;
                     ProcessIcon.ni.Text = "Timer Stopped. Check Settings.";
                     break;
                 default:
                     ProcessIcon.ni.Icon = Resources.StandardIcon;
-                    ProcessIcon.ni.Text = "OneDrive Bully" + " - Next Sync in: "
-                    + (timeRemaining / 60 / 1000).ToString() + " minutes";
+                    ProcessIcon.ni.Text = $"Next Sync in: {timeRemaining / 60 / 1000} minutes";
                     break;
             }
 
@@ -171,7 +169,7 @@ namespace OneDriveBully
 
         public void bullyNow()
         {
-            UpdateIconText(1);
+            UpdateIconText(ProgressStatus.Syncing);
             //Version 1.1 - Bug Fix -
             //checkUserSettings();
             if (checkUserSettings())
@@ -343,5 +341,15 @@ namespace OneDriveBully
         }
 
         #endregion Symbolic Links Related Functions
+        
+        private enum ProgressStatus
+        {
+            Idle,
+            Syncing,
+            Synced,
+            Error
+        }
     }
+
+
 }
