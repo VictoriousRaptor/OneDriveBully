@@ -25,8 +25,7 @@ namespace OneDriveBully
     [StructLayout(LayoutKind.Sequential)]
     public struct SymbolicLinkReparseData : IReparseData
     {
-        // Not certain about this!
-        private const int maxUnicodePathLength = 260 * 2;
+        private const int maxUnicodePathLength = 32767;
 
         public uint ReparseTag;
         public ushort ReparseDataLength;
