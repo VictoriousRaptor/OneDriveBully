@@ -54,8 +54,18 @@ namespace OneDriveBully
             }
             var watcher = new FileSystemWatcher(directory);
 
+            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+
+            watcher.NotifyFilter = NotifyFilters.FileName |
+                                   NotifyFilters.LastWrite |
+                                   NotifyFilters.DirectoryName |
+                                   NotifyFilters.Size |
+                                   NotifyFilters.Attributes;
+
             watcher.Created += (_, _) => indexQueue.Writer.TryWrite(default);
             watcher.Deleted += (_, _) => indexQueue.Writer.TryWrite(default);
+            watcher.Renamed += (_, _) => indexQueue.Writer.TryWrite(default);
+            watcher.Changed += (_, _) => indexQueue.Writer.TryWrite(default);
             watcher.EnableRaisingEvents = true;
             watcher.IncludeSubdirectories = true;
 
