@@ -42,6 +42,7 @@ namespace OneDriveBully
             if (UserDefinedSettingsExist)
             {
                 setTimerInterval(Properties.Settings.Default.TimerInterval);
+                DirMonitor.WatchDirs(GetSymlinkTargets());
             }
         }
 

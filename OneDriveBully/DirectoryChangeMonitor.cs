@@ -54,8 +54,6 @@ namespace OneDriveBully
             }
             var watcher = new FileSystemWatcher(directory);
 
-            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-
             watcher.NotifyFilter = NotifyFilters.FileName |
                                    NotifyFilters.LastWrite |
                                    NotifyFilters.DirectoryName |
