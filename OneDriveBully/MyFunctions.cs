@@ -142,6 +142,10 @@ namespace OneDriveBully
             {
                 _ = bullyNow();
             }
+            else
+            {
+                UpdateIconText(ProgressStatus.Idle);
+            }
         }
 
         private void UpdateIconText(ProgressStatus ProgressStatus)
