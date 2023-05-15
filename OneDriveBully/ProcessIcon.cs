@@ -53,7 +53,7 @@ namespace OneDriveBully
             {
                 if (fn.UserDefinedSettingsExist)
                 {
-                    fn.bullyNow();
+                    _ = fn.bullyNow();
                 }
                 else
                 {

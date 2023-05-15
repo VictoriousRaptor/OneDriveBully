@@ -48,7 +48,7 @@ namespace OneDriveBully
 
 		void Bully_Click(object sender, EventArgs e)
 		{
-            ProcessIcon.fn.bullyNow();
+            _ = ProcessIcon.fn.bullyNow();
 		}
         void Settings_Click(object sender, EventArgs e)
         {
